@@ -1,1 +1,26 @@
-
+[
+    {
+        "id": 1,
+        "person": "Jan Kowalski",
+        "thing": "Laptop #12",
+        "rented": "2026-05-17",
+        "return": "2026-05-20",
+        "status": "Wypożyczone"
+    },
+    {
+        "id": 2,
+        "person": "Anna Nowak",
+        "thing": "Projektor",
+        "rented": "2026-05-17",
+        "return": "2026-05-18",
+        "status": "Wypożyczone"
+    },
+    {
+        "person": "Pawelek",
+        "thing": "ksiazka",
+        "rented": "2026-05-17",
+        "return": "2026-05-25",
+        "status": "Wypożyczone",
+        "id": 3
+    }
+]

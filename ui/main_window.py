@@ -1,4 +1,5 @@
 from PySide6.QtWidgets import (
+    QComboBox,
     QWidget,
     QVBoxLayout,
     QLabel,
@@ -8,10 +9,12 @@ from PySide6.QtWidgets import (
     QDialog,
     QLineEdit,
     QFormLayout,
-    QDateEdit
+    QDateEdit,
+    QListWidget, 
+    QListWidgetItem
 )
 
-from PySide6.QtCore import QDate
+from PySide6.QtCore import QDate, Qt
 
 from services.data_service import DataService
 
@@ -23,12 +26,12 @@ class MainWindow(QWidget):
 
         self.data_service=DataService()
 
-        self.setWindowTitle("System wypożyczeń")
+        self.setWindowTitle("MERCH")
         self.resize(900,500)
 
         layout=QVBoxLayout()
 
-        title=QLabel("System wypożyczeń")
+        title=QLabel("MERCH")
         layout.addWidget(title)
 
         self.table=QTableWidget()
@@ -62,6 +65,14 @@ class MainWindow(QWidget):
 
         layout.addWidget(add_btn)
 
+        # return btn
+        return_btn = QPushButton("Return")
+
+        return_btn.clicked.connect(
+            self.return_item
+        )
+
+        layout.addWidget(return_btn)
 
         self.setLayout(layout)
 
@@ -112,17 +123,47 @@ class MainWindow(QWidget):
 
             self.load_data()
 
+    def return_item(self):
+
+        row = self.table.currentRow()
+
+        if row < 0:
+            return
+
+        data = self.data_service.get_all()
+         
+        selected_item = data[row]
+
+        self.data_service.update_status(
+            selected_item["id"],
+            "Returned"
+        )
+
+        self.load_data()
+
+
 class AddDialog(QDialog):
 
     def __init__(self):
         super().__init__()
 
-        self.setWindowTitle("Nowe wypożyczenie")
+        self.setWindowTitle("New Rental")
 
         layout = QFormLayout()
 
         self.person = QLineEdit()
-        self.thing = QLineEdit()
+
+        # combo box with available items
+        self.data_service = DataService()
+        self.thing = QListWidget()
+        items = self.data_service.get_available_items()
+        for item_text in items:
+            item = QListWidgetItem(item_text)
+            item.setFlags(
+                item.flags() | Qt.ItemIsUserCheckable
+            )
+            item.setCheckState(Qt.Unchecked)
+            self.thing.addItem(item)
 
         self.rented = QDateEdit()
         self.rented.setDate(QDate.currentDate())
@@ -130,7 +171,7 @@ class AddDialog(QDialog):
         self.return_date = QDateEdit()
         self.return_date.setDate(QDate.currentDate())
 
-        save_btn = QPushButton("Zapisz")
+        save_btn = QPushButton("Save")
 
         save_btn.clicked.connect(self.accept)
 
@@ -145,12 +186,22 @@ class AddDialog(QDialog):
 
     def get_data(self):
 
+        selected_items = []
+        for i in range(self.thing.count()):
+
+            item = self.thing.item(i)
+
+            if item.checkState() == Qt.Checked:
+
+                selected_items.append(
+                    item.text()
+                )
         return {
             "person": self.person.text(),
-            "thing": self.thing.text(),
+            "thing": ", ".join(selected_items),
             "rented":
                 self.rented.date().toString("yyyy-MM-dd"),
             "return":
                 self.return_date.date().toString("yyyy-MM-dd"),
-            "status":"Wypożyczone"
+            "status":"Rented"
         }

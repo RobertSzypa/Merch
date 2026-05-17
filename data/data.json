@@ -13,14 +13,38 @@
         "thing": "Projektor",
         "rented": "2026-05-17",
         "return": "2026-05-18",
-        "status": "Wypożyczone"
+        "status": "Returned"
     },
     {
-        "person": "Pawelek",
-        "thing": "ksiazka",
+        "person": "pawel",
+        "thing": "Lip balm – black (SDA logo)",
         "rented": "2026-05-17",
-        "return": "2026-05-25",
-        "status": "Wypożyczone",
+        "return": "2026-05-18",
+        "status": "Rented",
         "id": 3
+    },
+    {
+        "person": "Robert",
+        "thing": "Vinyl stickers",
+        "rented": "2026-05-17",
+        "return": "2026-05-20",
+        "status": "Returned",
+        "id": 4
+    },
+    {
+        "person": "Rob",
+        "thing": "Keyrings – cloth, Keyrings – silicone, Logo bugs",
+        "rented": "2026-05-17",
+        "return": "2026-05-19",
+        "status": "Rented",
+        "id": 5
+    },
+    {
+        "person": "Luk",
+        "thing": "Lip balm – black (SDA logo), Lip balm – white (barcode + hidden helpline number), Stalking Pens, Pin brooch – metal, Pin badges – black",
+        "rented": "2026-05-17",
+        "return": "2026-05-17",
+        "status": "Returned",
+        "id": 6
     }
 ]

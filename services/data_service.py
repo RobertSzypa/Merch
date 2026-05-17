@@ -53,3 +53,37 @@ class DataService:
 
         print("Zapisano:", item)
         print("Plik:", self.FILE)
+        
+    def update_status(self, item_id, new_status):
+
+        data = self.get_all()
+
+        for item in data:
+
+            if item["id"] == item_id:
+
+                item["status"] = new_status
+                break
+
+        with open(
+            self.FILE,
+            "w",
+            encoding="utf8"
+        ) as f:
+
+            json.dump(
+                data,
+                f,
+                indent=4,
+                ensure_ascii=False
+            )
+
+
+    def get_available_items(self):
+
+        with open(
+            "data/merchandise.json",
+            "r",
+            encoding="utf8"
+        ) as f:
+            return json.load(f)
